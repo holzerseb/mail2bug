@@ -7,6 +7,7 @@ using System.Text;
 using log4net;
 using Microsoft.Exchange.WebServices.Data;
 using Newtonsoft.Json.Linq;
+using Mail2Bug.Helpers;
 
 namespace Mail2Bug.Email.EWS
 {
@@ -27,6 +28,7 @@ namespace Mail2Bug.Email.EWS
             public string EmailAddress;
             public string UserName;
             public string Password;
+            public Config.OAuthSecret OAuthCredentials;
         }
 
         public struct EWSConnection
@@ -87,11 +89,19 @@ namespace Mail2Bug.Email.EWS
         static private EWSConnection ConnectToEWS(Credentials credentials, bool useConversationGuidOnly)
         {
             Logger.DebugFormat("Initializing FolderMailboxManager for email adderss {0}", credentials.EmailAddress);
-            var exchangeService = new ExchangeService(ExchangeVersion.Exchange2010_SP1)
+            ExchangeService exchangeService;
+            if (credentials.OAuthCredentials != null)
             {
-                Credentials = new WebCredentials(credentials.UserName, credentials.Password),
-                Timeout = 60000
-            };
+                exchangeService = EWSOAuthHelper.OAuthConnectPost();
+            }
+            else
+            {
+                exchangeService = new ExchangeService(ExchangeVersion.Exchange2010_SP1)
+                {
+                    Credentials = new WebCredentials(credentials.UserName, credentials.Password),
+                    Timeout = 60000
+                };
+            }
 
             exchangeService.AutodiscoverUrl(
                 credentials.EmailAddress,

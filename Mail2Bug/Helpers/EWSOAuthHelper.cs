@@ -67,6 +67,7 @@ namespace Mail2Bug.Helpers
                 var ewsClient = new ExchangeService();
                 ewsClient.Url = new Uri("https://outlook.office365.com/EWS/Exchange.asmx");
                 ewsClient.Credentials = new OAuthCredentials(aToken);
+                ewsClient.Timeout = 60000;
                 return ewsClient;
             }
         }

@@ -201,6 +201,11 @@ namespace Mail2Bug
                 EWSByFolder,
                 EWSByRecipients
             }
+            public enum AuthenticationMode
+            {
+                OAuth,
+                Basic
+            }
 
             public MailboxServiceType ServiceType { get; set; }
 
@@ -211,6 +216,7 @@ namespace Mail2Bug
             public string EWSPasswordFile { get; set; }
             public KeyVaultSecret EWSKeyVaultSecret { get; set; }
             public OAuthSecret EWSOAuthSecret { get; set; }
+            public AuthenticationMode EWSAuthenticationMode { get; set; }
 
             #endregion
 
