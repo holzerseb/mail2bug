@@ -1,0 +1,76 @@
+﻿<?xml version="1.0"?>
+<Config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Instances>
+    <InstanceConfig Name="Dibit8">
+      <TfsServerConfig>
+        <CollectionUri>https://devops.dibit.at/Dibit8%20Team</CollectionUri>
+        <Project>Dibit8</Project>
+        <WorkItemTemplate>Bug Report</WorkItemTemplate>
+        <!-- see example query file in the same folder as this example config-->
+        <CacheQueryFile>.\Configuration\Dibit8_Query.wiq</CacheQueryFile>
+        <SimulationMode>false</SimulationMode>
+        <NamesListFieldName>Assigned To</NamesListFieldName>
+      </TfsServerConfig>
+      <WorkItemSettings>
+        <!-- The conversation index field should be a textual field with a capacity of 200 or more. Ideally 
+             you'll create a dedicated field for this rather than overloading an existing one, to avoid
+             other people/tools overwriting it with unrelated data. Also, by making it dedicated, you can
+             also make the decision to make it invisible (since no one should be editing it manually)-->
+        <ConversationIndexFieldName>ConversationID</ConversationIndexFieldName>
+        <DefaultFieldValues>
+          <!-- The important part is to include a default value for every mandatory field, otherwise work
+               item creation will fail. The only automatically defined default is the 'Title' field, that gets
+               the email subject as a value. -->
+          <DefaultValueDefinition Field="Assigned To" Value="Unassigned" />
+          <DefaultValueDefinition Field="Severity" Value="3" />
+          <DefaultValueDefinition Field="Area Path" Value="Dibit8\Teams\Users\BugReports" />
+          <DefaultValueDefinition Field="Iteration Path" Value="Dibit8" />
+          <DefaultValueDefinition Field="Description" Value="##MessageBodyWithSender" />
+          <DefaultValueDefinition Field="Reporter Email" Value="##Sender" />
+        </DefaultFieldValues>
+        <!-- 'true' means we should attached the email message that triggered the creation of the work item -->
+        <AttachOriginalMessage>true</AttachOriginalMessage>
+      </WorkItemSettings>
+      <EmailSettings>
+        <!-- EWSByRecipients is the most straight-forward way to set up the mailbox. Basically, it will process
+             any email in the Inbox that has any of the recipients in the To or Cc fields.
+             Recipients can be specified as email addresses, or as display names
+             When specifying more than one recipient, use ; as separator -->
+        <ServiceType>EWSByRecipients</ServiceType>
+        <Recipients>bugs@dibit.at;support@dibit.at</Recipients>
+
+        <!-- The email address whose inbox that we want to monitor -->
+        <EWSMailboxAddress>bugs@dibit.at</EWSMailboxAddress>
+
+        <!-- A username with permissions to log in to the email account. This is generally either in the form of
+             email address form (usually the same as the email address in EWSMailboxAddress), or in DOMAIN\username
+             form. I've seen cases where the same server would take one or the other (or both), depending on the
+             server set up, as well as the client set up, so if one doesn't work, try the other -->
+        <EWSUsername>bugs@dibit.at</EWSUsername>
+
+        <!-- Pointer to a file that stores the password for the login account. The file is expected to be encrypted
+             with DPAPI - use the DpapiTool.exe from the Tools subfolder to create one. Note that the tool needs to be
+             run under the same credentials that mail2bug will run with, otherwise it won't be able to decrypt the
+             contents. -->
+        <EWSPasswordFile>.\Configuration\bugsAtDibit.bin</EWSPasswordFile>
+
+        <!-- Warning: Changing this on an existing instance will break links with bugs that it already created. -->
+        <UseConversationGuidOnly>true</UseConversationGuidOnly>
+
+        <SendAckEmails>true</SendAckEmails>
+        <AckEmailsRecipientsAll>true</AckEmailsRecipientsAll>
+
+        <!-- A pointer to a file containing the ack email template for sending back responses when a new work item is
+             created-->
+        <ReplyTemplate>.\Configuration\Dibit8_ReplyTemplate.htm</ReplyTemplate>
+
+        <!-- Ideally, you'll never need to change these regexes and you'll use the defaults below, but they do give you 
+             the flexibility to define your own format for specifying overrides, or detecting that an email is an "append
+             only" email. Don't forget to escape any angle brackets. -->
+        <AppendOnlyEmailTitleRegex>.*(bug|work item)\s*#\s*(?&lt;id&gt;\d+)</AppendOnlyEmailTitleRegex>
+        <AppendOnlyEmailBodyRegex>!!!(bug|work item)\s*#\s*(?&lt;id&gt;\d+)</AppendOnlyEmailBodyRegex>
+        <ExplicitOverridesRegex>###\s*(?&lt;fieldName&gt;[^:]*):\s*(?&lt;value&gt;.*)</ExplicitOverridesRegex>
+      </EmailSettings>
+    </InstanceConfig>
+  </Instances>
+</Config>

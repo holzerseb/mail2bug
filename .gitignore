@@ -95,3 +95,4 @@ Thumbs.db
 /packages/
 *.nupkg
 
+deploy/Configuration/bugsAtDibit.bin
