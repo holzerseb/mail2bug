@@ -92,7 +92,7 @@ namespace Mail2Bug.Email.EWS
             ExchangeService exchangeService;
             if (credentials.OAuthCredentials != null)
             {
-                exchangeService = EWSOAuthHelper.OAuthConnectPost();
+                exchangeService = EWSOAuthHelper.OAuthConnectPost(credentials.OAuthCredentials, credentials.EmailAddress);
             }
             else
             {

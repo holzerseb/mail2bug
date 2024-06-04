@@ -13,22 +13,16 @@ namespace Mail2Bug.Helpers
 {
     public class EWSOAuthHelper
     {
-        private const string TenantID = "[Your Tenant ID]";
-        private const string ClientID = "[Your Client ID]";
-        private const string ClientSecret = "[Your Secret ID]";
-
-        private const string AgentName = "My Agent Name";
-
-        public static ExchangeService OAuthConnectPost()
+        public static ExchangeService OAuthConnectPost(Config.OAuthSecret oAuthCredentials, string emailAddress)
         {
-            string LoginURL = String.Format("https://login.microsoftonline.com/{0}/oauth2/v2.0/token", TenantID);
+            string LoginURL = String.Format("https://login.microsoftonline.com/{0}/oauth2/v2.0/token", oAuthCredentials.TenantID);
 
             var LogValues = new Dictionary<string, string>
             {
                 { "grant_type", "client_credentials" },
-                { "client_id", ClientID },
-                { "client_secret", ClientSecret },
-                { "scope", "https://graph.microsoft.com/.default" }
+                { "client_id", oAuthCredentials.ClientID },
+                { "client_secret", oAuthCredentials.ClientSecret },
+                { "scope", "https://outlook.office365.com/.default" }
             };
             string postData = "";
             foreach (var v in LogValues)
@@ -49,7 +43,7 @@ namespace Mail2Bug.Helpers
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
             request.Accept = "*/*";
-            request.UserAgent = AgentName;
+            request.UserAgent = oAuthCredentials.UserAgentName;
             request.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
             request.ContentLength = data.Length;
             using (var stream = request.GetRequestStream())
@@ -67,6 +61,9 @@ namespace Mail2Bug.Helpers
                 var ewsClient = new ExchangeService();
                 ewsClient.Url = new Uri("https://outlook.office365.com/EWS/Exchange.asmx");
                 ewsClient.Credentials = new OAuthCredentials(aToken);
+                //Impersonate and include x-anchormailbox headers are required!
+                ewsClient.ImpersonatedUserId = new ImpersonatedUserId(ConnectingIdType.SmtpAddress, emailAddress);
+                ewsClient.HttpHeaders.Add("X-AnchorMailbox", emailAddress);
                 ewsClient.Timeout = 60000;
                 return ewsClient;
             }
