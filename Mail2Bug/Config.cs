@@ -28,6 +28,14 @@ namespace Mail2Bug
             public string ApplicationSecretEnvironmentVariableName { get; set; }
         }
 
+        public class OAuthSecret
+        {
+            public string TenantID { get; set; }
+            public string ClientID { get; set; }
+            public string ClientSecret { get; set; }
+            public string UserAgentName { get; set; }
+        }
+
         public class TfsServerConfig
         {
             // The TFS collection URL to connect to. e.g:
@@ -202,6 +210,7 @@ namespace Mail2Bug
             public string EWSUsername { get; set; }
             public string EWSPasswordFile { get; set; }
             public KeyVaultSecret EWSKeyVaultSecret { get; set; }
+            public OAuthSecret EWSOAuthSecret { get; set; }
 
             #endregion
 

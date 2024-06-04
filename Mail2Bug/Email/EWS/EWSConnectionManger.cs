@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.Cache;
+using System.Net;
+using System.Text;
 using log4net;
 using Microsoft.Exchange.WebServices.Data;
+using Newtonsoft.Json.Linq;
 
 namespace Mail2Bug.Email.EWS
 {
@@ -107,7 +112,6 @@ namespace Mail2Bug.Email.EWS
                         new EWSMailFolder(Folder.Bind(exchangeService, WellKnownFolderName.Inbox), useConversationGuidOnly))
             };
         }
-
 
         private readonly Dictionary<Tuple<string, string, int, bool>, EWSConnection> _cachedConnections;
         private readonly bool _enableConnectionCaching;

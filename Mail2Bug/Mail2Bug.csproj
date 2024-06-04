@@ -319,6 +319,7 @@
     <Compile Include="Helpers\CredentialsHelper.cs" />
     <Compile Include="Helpers\DisposeUtils.cs" />
     <Compile Include="Helpers\DPAPIHelper.cs" />
+    <Compile Include="Helpers\EWSOAuthHelper.cs" />
     <Compile Include="Helpers\FileUtils.cs" />
     <Compile Include="InstanceRunner.cs" />
     <Compile Include="MessageProcessingStrategies\DateBasedValueResolver.cs" />
