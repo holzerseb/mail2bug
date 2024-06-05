@@ -297,6 +297,24 @@
         </EWSKeyVaultSecret>
         -->
 
+        <!-- Add the information of your Office365 Application here. You must setup an App registration in Microsoft Entra for Mail2Bug, in order to use OAuth.
+             Minimum required API permissions are for the type "Application" for "Office 365 Exchange Online" with IMAP.*, Mail.*, POP.*, SMTP.*
+             The application will impersonate the EWSUsername and get access to that application. Make sure to allow the application to access the EWSUsername and allow impersonating it.
+             
+             If you want to use Basic Authentication, omit this element!
+             Warning: You must still setup the EWSPasswordFile and EWSUsername, because they are used to log in in Azure Devops/TFS. OAuth only supports the Exchange Online login to read/send mails!
+             -->
+        <EWSOAuthSecret>
+            <!-- Your Tenant ID, can be found in the application Overview -->
+            <TenantID>00000000-0000-0000-0000-000000000000</TenantID>
+            <!-- Your Application (client) ID, can be found in the application Overview -->
+            <ClientID>00000000-0000-0000-0000-000000000000</ClientID>
+            <!-- Your Client Credentials Secret, must be generated via the Client Credentials -->
+            <ClientSecret>k5r933EbGAQHjTzzNwii71JtRMb0rxI09htsJqMF</ClientSecret>
+            <!-- Optional useragent -->
+            <UserAgentName>Mail2Bug/1.0.0.0</UserAgentName>
+        </EWSOAuthSecret>
+
         <!-- Instead of using the whole ConversationIndex, use only the ConversationID, which is the guid portion of
              the ConversationIndex, to identify a conversation. This should help avoid the possibility of replies
              inadvertently spawning new bugs. See https://msdn.microsoft.com/en-us/library/ee202481(v=exchg.80).aspx

@@ -53,6 +53,18 @@
              contents. -->
         <EWSPasswordFile>.\Resources\mail2bug.bin</EWSPasswordFile>
 
+        <!-- Add the information of your Office365 Application here. You must setup an App registration in Microsoft Entra for Mail2Bug, in order to use OAuth.
+             Minimum required API permissions are for the type "Application" for "Office 365 Exchange Online" with IMAP.*, Mail.*, POP.*, SMTP.*
+             The application will impersonate the EWSUsername and get access to that application. Make sure to allow the application to access the EWSUsername and allow impersonating it.
+             If you want to use Basic Authentication, omit this element! Warning: You must still setup the EWSPasswordFile and EWSUsername to log in in Azure Devops/TFS.
+             -->
+        <!--<EWSOAuthSecret>
+            <TenantID>00000000-0000-0000-0000-000000000000</TenantID>
+            <ClientID>00000000-0000-0000-0000-000000000000</ClientID>
+            <ClientSecret>k5r933EbGAQHjTzzNwii71JtRMb0rxI09htsJqMF</ClientSecret>
+            <UserAgentName>Mail2Bug/1.0.0.0</UserAgentName>
+        </EWSOAuthSecret>-->
+
         <!-- Warning: Changing this on an existing instance will break links with bugs that it already created. -->
         <UseConversationGuidOnly>true</UseConversationGuidOnly>
 

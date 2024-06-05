@@ -25,7 +25,8 @@ namespace Mail2Bug.Email
             {
                 EmailAddress = emailSettings.EWSMailboxAddress,
                 UserName = emailSettings.EWSUsername,
-                Password = password
+                Password = password,
+                OAuthCredentials = emailSettings.EWSOAuthSecret,
             };
 
             var exchangeService = _connectionManger.GetConnection(credentials, emailSettings.UseConversationGuidOnly);
