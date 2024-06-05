@@ -28,7 +28,24 @@ namespace Mail2Bug.Email.EWS
             public string EmailAddress;
             public string UserName;
             public string Password;
-            public Config.OAuthSecret OAuthCredentials;
+            public CredentialsOAuth OAuthCredentials;
+        }
+
+        public class CredentialsOAuth
+        {
+            public CredentialsOAuth() { }
+            public CredentialsOAuth(Config.EmailSettings emailSettings, string clientSecret)
+            {
+                TenantID = emailSettings.EWSOAuthSecret.TenantID;
+                ClientID = emailSettings.EWSOAuthSecret.ClientID;
+                ClientSecret = clientSecret;
+                UserAgentName = emailSettings.EWSOAuthSecret.UserAgentName;
+            }
+
+            public string TenantID { get; set; }
+            public string ClientID { get; set; }
+            public string ClientSecret { get; set; }
+            public string UserAgentName { get; set; }
         }
 
         public struct EWSConnection

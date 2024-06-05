@@ -8,12 +8,13 @@ using System.Net.Cache;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Mail2Bug.Email.EWS;
 
 namespace Mail2Bug.Helpers
 {
     public class EWSOAuthHelper
     {
-        public static ExchangeService OAuthConnectPost(Config.OAuthSecret oAuthCredentials, string emailAddress)
+        public static ExchangeService OAuthConnectPost(EWSConnectionManger.CredentialsOAuth oAuthCredentials, string emailAddress)
         {
             string LoginURL = String.Format("https://login.microsoftonline.com/{0}/oauth2/v2.0/token", oAuthCredentials.TenantID);
 

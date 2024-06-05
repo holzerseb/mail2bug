@@ -32,7 +32,7 @@ namespace Mail2Bug
         {
             public string TenantID { get; set; }
             public string ClientID { get; set; }
-            public string ClientSecret { get; set; }
+            public string ClientSecretFile { get; set; }
             public string UserAgentName { get; set; }
         }
 

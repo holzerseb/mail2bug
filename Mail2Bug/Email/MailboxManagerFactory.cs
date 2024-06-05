@@ -21,12 +21,15 @@ namespace Mail2Bug.Email
         {
             var credentialsHelper = new Helpers.CredentialsHelper();
             string password = credentialsHelper.GetPassword(emailSettings.EWSPasswordFile, emailSettings.EncryptionScope, emailSettings.EWSKeyVaultSecret);
+            string clientSecret = emailSettings.EWSOAuthSecret != null 
+                ? credentialsHelper.GetPassword(emailSettings.EWSOAuthSecret.ClientSecretFile, emailSettings.EncryptionScope, emailSettings.EWSKeyVaultSecret)
+                : null;
             var credentials = new EWSConnectionManger.Credentials
             {
                 EmailAddress = emailSettings.EWSMailboxAddress,
                 UserName = emailSettings.EWSUsername,
                 Password = password,
-                OAuthCredentials = emailSettings.EWSOAuthSecret,
+                OAuthCredentials = emailSettings.EWSOAuthSecret != null ? new EWSConnectionManger.CredentialsOAuth(emailSettings, clientSecret) : null,
             };
 
             var exchangeService = _connectionManger.GetConnection(credentials, emailSettings.UseConversationGuidOnly);

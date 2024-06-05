@@ -309,8 +309,11 @@
             <TenantID>00000000-0000-0000-0000-000000000000</TenantID>
             <!-- Your Application (client) ID, can be found in the application Overview -->
             <ClientID>00000000-0000-0000-0000-000000000000</ClientID>
-            <!-- Your Client Credentials Secret, must be generated via the Client Credentials -->
-            <ClientSecret>k5r933EbGAQHjTzzNwii71JtRMb0rxI09htsJqMF</ClientSecret>
+            <!-- Pointer to a file that stores the client credentials secret. The file is expected to be encrypted
+             with DPAPI - use the DpapiTool.exe from the Tools subfolder to create one. Note that the tool needs to be
+             run under the same credentials that mail2bug will run with, otherwise it won't be able to decrypt the
+             contents. The client secret string that must be encrypted has to be generated via Microsoft Entra and looks like this: k5r933EbGAQHjTzzNwii71JtRMb0rxI09htsJqMF -->
+            <ClientSecretFile>.\Resources\mail2bugAppClientSecret.bin</ClientSecretFile>
             <!-- Optional useragent -->
             <UserAgentName>Mail2Bug/1.0.0.0</UserAgentName>
         </EWSOAuthSecret>

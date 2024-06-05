@@ -58,12 +58,16 @@
              The application will impersonate the EWSUsername and get access to that application. Make sure to allow the application to access the EWSUsername and allow impersonating it.
              If you want to use Basic Authentication, omit this element! Warning: You must still setup the EWSPasswordFile and EWSUsername to log in in Azure Devops/TFS.
              -->
-        <!--<EWSOAuthSecret>
+        <EWSOAuthSecret>
             <TenantID>00000000-0000-0000-0000-000000000000</TenantID>
             <ClientID>00000000-0000-0000-0000-000000000000</ClientID>
-            <ClientSecret>k5r933EbGAQHjTzzNwii71JtRMb0rxI09htsJqMF</ClientSecret>
+            <!-- Pointer to a file that stores the client credentials secret. The file is expected to be encrypted
+             with DPAPI - use the DpapiTool.exe from the Tools subfolder to create one. Note that the tool needs to be
+             run under the same credentials that mail2bug will run with, otherwise it won't be able to decrypt the
+             contents. The client secret string that must be encrypted has to be generated via Microsoft Entra and looks like this: k5r933EbGAQHjTzzNwii71JtRMb0rxI09htsJqMF -->
+            <ClientSecretFile>.\Resources\mail2bugAppClientSecret.bin</ClientSecretFile>
             <UserAgentName>Mail2Bug/1.0.0.0</UserAgentName>
-        </EWSOAuthSecret>-->
+        </EWSOAuthSecret>
 
         <!-- Warning: Changing this on an existing instance will break links with bugs that it already created. -->
         <UseConversationGuidOnly>true</UseConversationGuidOnly>
